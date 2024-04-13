@@ -25,8 +25,9 @@ const getRawMaterials = async (req, res) => {
 }
 
 const getRawMaterialById = async (req, res) => {
-    try{
-        const rawMaterial = await RawMaterialService.findById(req.params.materialId);
+    try{    
+       const MateriaID = req.params.materialId
+        const rawMaterial = await RawMaterialService.find({MateriaID});
         res.status(200).json(rawMaterial);
     }catch(err){
         console.log(err);
@@ -56,21 +57,26 @@ const deleteRawMaterial = async (req, res) => {
 
 const getRawMaterialJourney = async (req, res) => {
     try{
+        const step = parseInt(req.body.step);
+        const materialId = req.params.materialId;
+        console.log(step,materialId);
+        
         const RMJ = await RMJConnector();
-        const res = await RMJ.getJourneyStep(req.params.materialId);
+        const res = await RMJ.getAllMaterialIDs();
         console.log(res);
         return res.status(200).json(res);
     }catch(err){
-        console.log(err);
+        // console.log(err);
         return res.status(500).json({message: err.message});
     }
 };
 const addRawMaterialJourney = async (req, res) => {
     try{
         const RMJ = await RMJConnector();
-        const res = await RMJ.addJourneyStep(req.params.materialId, req.body.location, req.body.description);
-        console.log(res);
-        return res.status(200).json(res);
+        // console.log(req.params.materialId);
+        const resp = await RMJ.addJourneyStep(req.params.materialId, req.body.location, req.body.description);
+        // console.log(resp);
+        return res.status(200).json(resp);
     }catch(err){
         console.log(err);
         return res.status(500).json({message: err.message});

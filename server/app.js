@@ -7,7 +7,7 @@ const RawMaterialServiceRouter = require('./Routers/RawMaterialServiceRouter');
 dotenv.config();
 
 app.use(express.json());
-app.use('/RawMaterial', RawMaterialServiceRouter);
+app.use('/api/RawMaterial', RawMaterialServiceRouter);
 app.get('/', (req, res) => {
   res.send('Server is running!');
 });

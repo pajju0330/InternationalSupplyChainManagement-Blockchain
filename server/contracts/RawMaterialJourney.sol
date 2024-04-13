@@ -7,7 +7,7 @@ contract RawMaterialJourney {
         string location;
         string description;
     }
-
+    string[] public materialIDs;
     mapping(string => JourneyStep[]) public rawMaterialJourney;
     event JourneyStepAdded(string indexed materialID, uint indexed stepIndex, uint timestamp, string location, string description);
 
@@ -19,10 +19,28 @@ contract RawMaterialJourney {
             description: description
         });
         journeySteps.push(newStep);
-
+        if (journeySteps.length == 1) {
+            materialIDs.push(materialID);
+        }
         emit JourneyStepAdded(materialID, journeySteps.length - 1, newStep.timestamp, newStep.location, newStep.description);
     }
+    function getAllMaterialIDs() public view returns (string[] memory) {
+        uint256 materialCount = 0;
+        for (uint256 i = 0; i < materialIDs.length; i++) {
+            materialCount += rawMaterialJourney[materialIDs[i]].length;
+        }
 
+        string[] memory allMaterialIDs = new string[](materialCount);
+        uint256 index = 0;
+        for (uint256 i = 0; i < materialIDs.length; i++) {
+            for (uint256 j = 0; j < rawMaterialJourney[materialIDs[i]].length; j++) {
+                allMaterialIDs[index] = materialIDs[i];
+                index++;
+            }
+        }
+
+        return allMaterialIDs;
+    }
     function getJourneyStepCount(string memory materialID) public view returns (uint) {
         return rawMaterialJourney[materialID].length;
     }

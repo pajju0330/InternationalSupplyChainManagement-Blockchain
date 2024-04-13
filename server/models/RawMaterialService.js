@@ -8,7 +8,6 @@ const RawMaterialServiceSchema = new Schema({
   },
   image:{
     type: String,
-    required: true
   },
   MateriaID: {
     type: String,

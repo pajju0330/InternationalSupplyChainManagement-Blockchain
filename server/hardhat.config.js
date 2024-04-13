@@ -3,7 +3,7 @@ require("@nomiclabs/hardhat-ethers");
 require("@nomiclabs/hardhat-etherscan");
 
 module.exports = {
-  defaultNetwork: "polygon_mumbai", // Set the default network here
+  defaultNetwork: "hardhat", // Set the default network here
   networks: {
     hardhat: {
       gasLimit: 30000000000,
