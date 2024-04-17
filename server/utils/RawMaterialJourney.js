@@ -5,7 +5,7 @@ exports.RMJConnector = async () => {
     try {
         const [owner] = await ethers.getSigners();
         
-        const RMJConnector = "0x5FbDB2315678afecb367f032d93F642f64180aa3"; 
+        const RMJConnector = "0xFd80e5e78B6b496697116AB807B6b918a106aE68"; 
         const abi = JSON.parse(fs.readFileSync('./artifacts/contracts/RawMaterialJourney.sol/RawMaterialJourney.json').toString()).abi;
         // console.log(abi);
         const Rmj = new ethers.Contract(RMJConnector, abi, owner);    

@@ -27,7 +27,9 @@ contract RawMaterialJourney {
     function getAllMaterialIDs() public view returns (string[] memory) {
         uint256 materialCount = 0;
         for (uint256 i = 0; i < materialIDs.length; i++) {
+          if (rawMaterialJourney[materialIDs[i]].length > 0) {
             materialCount += rawMaterialJourney[materialIDs[i]].length;
+          }
         }
 
         string[] memory allMaterialIDs = new string[](materialCount);
@@ -45,6 +47,7 @@ contract RawMaterialJourney {
         return rawMaterialJourney[materialID].length;
     }
     function getJourneyStep(string memory materialID, uint stepIndex) public view returns (uint, string memory, string memory) {
+        require(stepIndex < rawMaterialJourney[materialID].length, "Step index out of bounds");
         JourneyStep memory step = rawMaterialJourney[materialID][stepIndex];
         return (step.timestamp, step.location, step.description);
     }

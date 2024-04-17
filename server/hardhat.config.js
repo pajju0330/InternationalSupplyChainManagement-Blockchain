@@ -1,16 +1,18 @@
 require('dotenv').config();
 require("@nomiclabs/hardhat-ethers");
 require("@nomiclabs/hardhat-etherscan");
-
+require("@nomiclabs/hardhat-ganache");
 module.exports = {
-  defaultNetwork: "hardhat", // Set the default network here
+  defaultNetwork: process.env.TESTNET_RPC_NAME, // Set the default network here
   networks: {
     hardhat: {
-      gasLimit: 30000000000,
-    },
+      accounts: {
+          mnemonic: process.env.SEED_PHRASE,
+      },
+      chainId: 1337,
+  },
     polygon_mumbai: {
       url: process.env.TESTNET_RPC_URL,
-      gasLimit:30000000000,
       accounts: [process.env.PRIVATE_KEY]
     }
   },

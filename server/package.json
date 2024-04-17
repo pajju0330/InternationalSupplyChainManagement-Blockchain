@@ -9,5 +9,8 @@
     "express": "^4.19.2",
     "mongoose": "^8.3.1",
     "nodemon": "^3.1.0"
+  },
+  "devDependencies": {
+    "@nomiclabs/hardhat-ganache": "^2.0.1"
   }
 }

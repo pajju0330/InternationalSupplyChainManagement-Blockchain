@@ -62,9 +62,9 @@ const getRawMaterialJourney = async (req, res) => {
         console.log(step,materialId);
         
         const RMJ = await RMJConnector();
-        const res = await RMJ.getAllMaterialIDs();
-        console.log(res);
-        return res.status(200).json(res);
+        const resp = await RMJ.getJourneyStep(materialId, step);
+        console.log(resp);
+        return res.status(200).json(resp);
     }catch(err){
         // console.log(err);
         return res.status(500).json({message: err.message});
