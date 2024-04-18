@@ -5,7 +5,7 @@ exports.RMJConnector = async () => {
     try {
         const [owner] = await ethers.getSigners();
         
-        const RMJConnector = "0xFd80e5e78B6b496697116AB807B6b918a106aE68"; 
+        const RMJConnector = "0xcf133D9E584aF4EA2aB0e373AE135c1D3d587147"; 
         const abi = JSON.parse(fs.readFileSync('./artifacts/contracts/RawMaterialJourney.sol/RawMaterialJourney.json').toString()).abi;
         // console.log(abi);
         const Rmj = new ethers.Contract(RMJConnector, abi, owner);    
@@ -17,3 +17,18 @@ exports.RMJConnector = async () => {
     }
 };
 
+exports.InventoryConnector = async () => {
+    try {
+        const [owner] = await ethers.getSigners();
+        
+        const InventoryConnector = "0xE089BD810B64f6cadb05B026d05fAF59eB74cB6E"; 
+        const abi = JSON.parse(fs.readFileSync('./artifacts/contracts/InventoryContract.sol/InventoryContract.json').toString()).abi;
+        // console.log(abi);
+        const Inventory = new ethers.Contract(InventoryConnector, abi, owner);    
+        // console.log(Inventory);  
+        return Inventory;
+    } catch (error) {
+        console.log('Error initializing InventoryContract contract:');
+        // throw error; // Rethrow the error for proper handling in the calling code
+    }
+}

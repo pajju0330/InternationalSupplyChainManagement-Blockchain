@@ -7,8 +7,13 @@ async function main() {
   const RawMaterialJourney = await ethers.getContractFactory("RawMaterialJourney");
   const rawMaterialJourney = await RawMaterialJourney.deploy();
   await rawMaterialJourney.deployed();
-  // console.log(rawMaterialJourney);
+
+  const InventoryContract = await ethers.getContractFactory("InventoryContract");
+  const inventoryContract = await InventoryContract.deploy();
+  await inventoryContract.deployed();
+
   console.log("RawMaterialJourney contract deployed to:", rawMaterialJourney.address);
+  console.log("InventoryContract contract deployed to:", inventoryContract.address);
 }
 
 main()
