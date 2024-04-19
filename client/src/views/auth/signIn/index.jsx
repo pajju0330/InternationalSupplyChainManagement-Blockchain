@@ -1,26 +1,3 @@
-/* eslint-disable */
-/*!
-  _   _  ___  ____  ___ ________  _   _   _   _ ___   
- | | | |/ _ \|  _ \|_ _|__  / _ \| \ | | | | | |_ _| 
- | |_| | | | | |_) || |  / / | | |  \| | | | | || | 
- |  _  | |_| |  _ < | | / /| |_| | |\  | | |_| || |
- |_| |_|\___/|_| \_\___/____\___/|_| \_|  \___/|___|
-                                                                                                                                                                                                                                                                                                                                       
-=========================================================
-* Horizon UI - v1.1.0
-=========================================================
-
-* Product Page: https://www.horizon-ui.com/
-* Copyright 2023 Horizon UI (https://www.horizon-ui.com/)
-
-* Designed and Coded by Simmmple
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-
 import React from "react";
 import { NavLink } from "react-router-dom";
 // Chakra imports
@@ -68,7 +45,7 @@ function SignIn() {
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
   return (
-    <DefaultAuth illustrationBackground={illustration} image={illustration}>
+    <DefaultAuth illustrationBackground={"https://img.freepik.com/free-vector/warehouse-elements-background_1268-1331.jpg?w=740&t=st=1713525800~exp=1713526400~hmac=9eb9fb241539e5241e12ddda5aacda7e9367333b4fa10347a62ce1e2c382eb81"} >
       <Flex
         maxW={{ base: "100%", md: "max-content" }}
         w='100%'
@@ -143,7 +120,7 @@ function SignIn() {
               fontSize='sm'
               ms={{ base: "0px", md: "0px" }}
               type='email'
-              placeholder='mail@simmmple.com'
+              placeholder='mail@softChain.com'
               mb='24px'
               fontWeight='500'
               size='lg'
