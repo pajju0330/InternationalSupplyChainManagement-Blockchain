@@ -39,7 +39,6 @@ const RawMaterialServiceSchema = new Schema({
   },
   Status: {
     type: String,
-    required: true
   },
   createdAt: {
     type: Date,

@@ -1,0 +1,25 @@
+[{
+  "name":["DEll Laptops",false],
+  "quantity": 2458, 
+  "date": "12 Jan 2024",
+  "progress": 17.5  
+},
+{
+  "name":["HP Laptops",true],
+  "quantity": 1485, 
+  "date": "21 Feb 2024",
+  "progress": 10.8  
+},
+{
+  "name":["MAC Book",true],
+  "quantity": 1024, 
+  "date": "13 Mar 2024",
+  "progress": 21.3  
+},
+{
+  "name":["ASUS Laptop",true],
+  "quantity": 858, 
+  "date": "24 Jan 2024",
+  "progress": 31.5  
+}
+]
