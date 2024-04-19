@@ -32,6 +32,7 @@ import {
 import axios from "axios";
 
 export default function Marketplace() {
+  const user = JSON.parse(localStorage.getItem('type'));
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const textColorBrand = useColorModeValue("brand.400", "white");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -119,7 +120,7 @@ export default function Marketplace() {
   return (
     <Box pt={{ base: "180px", md: "80px", xl: "80px" }}>
       <Stack spacing={4} direction="row" align="center">
-        <Button size="md" backgroundColor={textColorBrand} color={"white"} onClick={handleCreateButtonClick}>Add Request</Button>
+        {user != "Supplier"  &&  <Button size="md" backgroundColor={textColorBrand} color={"white"} onClick={handleCreateButtonClick}>Add Request</Button>}
       </Stack>
 
       <Table variant="striped" color={textColor} size="md" mt={4}>
@@ -252,3 +253,4 @@ export default function Marketplace() {
     </Box>
   );
 }
+

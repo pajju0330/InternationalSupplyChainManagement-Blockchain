@@ -32,6 +32,8 @@ import {
 import axios from "axios";
 
 export default function Marketplace() {
+  const user = JSON.parse(localStorage.getItem('type'));
+  console.log(user);
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const textColorBrand = useColorModeValue("brand.400", "white");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -49,17 +51,31 @@ export default function Marketplace() {
   useEffect(() => {
     async function getData() {
       try {
-        const res = await axios.get('http://localhost:5000/api/RawMaterial');
-        const data = res.data.map(item => ({
-          name: item.name,
-          id: item.MateriaID,
-          description: item.description,
-          pricePerUnit: item.PricePerUnit,
-          quantity: item.Quantity,
-          supplierId: item.SupplierID,
-          expiryDate: item.ExpiryDate.substring(0, 10), // Extract yyyy-mm-dd
-        }));
-        setTableData(data); // Update table data state with fetched data
+        if(user != "Warehouse manager"){
+          const res = await axios.get('http://localhost:5000/api/RawMaterial');
+          const data = res.data.map(item => ({
+            name: item.name,
+            id: item.MateriaID,
+            description: item.description,
+            pricePerUnit: item.PricePerUnit,
+            quantity: item.Quantity,
+            supplierId: item.SupplierID,
+            expiryDate: item.ExpiryDate.substring(0, 10), // Extract yyyy-mm-dd
+          }));
+          setTableData(data); // Update table data state with fetched data
+        }else{
+          const res = await axios.get("http://localhost:5000/api/Inventory/");
+          const data = res.data.map(item => ({
+            name: item.productName,
+            id: item.productID,
+            description: item.description,
+            pricePerUnit: Math.random() * 1000 + 1,
+            quantity: item.quantity,
+            supplierId: "SUP001",
+            expiryDate: "01/12/2024", // Extract yyyy-mm-dd
+          }));
+          setTableData(data);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -130,7 +146,7 @@ export default function Marketplace() {
             <Th>Description</Th>
             <Th>Price per Unit</Th>
             <Th>Quantity</Th>
-            <Th>Supplier ID</Th>
+           {user == "Warehouse manager" && <Th>Supplier ID</Th>}
             <Th>Expiry Date</Th>
             <Th>Update</Th>
             <Th>Delete</Th>
@@ -144,7 +160,7 @@ export default function Marketplace() {
               <Td>{item.description}</Td>
               <Td>{item.pricePerUnit}</Td>
               <Td>{item.quantity}</Td>
-              <Td>{item.supplierId}</Td>
+              {user == "Warehouse manager" && <Td>{item.supplierId}</Td>}
               <Td>{item.expiryDate}</Td>
               <Td>
                 <EditIcon

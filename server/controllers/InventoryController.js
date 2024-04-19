@@ -36,7 +36,17 @@ const getAllInventoryItems = async (req, res) => {
     try{
         const InvConnector = await InventoryConnector(); 
         const resp = await InvConnector.getAllInventoryItems();
-        res.status(200).json(resp);
+        const modifiedResp = resp.map(item => {
+            return {
+                productID: item.productID.toString(),
+                productName: item.productName,
+                description: item.description,
+                quantity: item.quantity.toString(),
+                unit: item.unit.toString(),
+                location: item.location
+            }
+        });
+        res.status(200).json(modifiedResp);
     }catch(err){
         console.log(err);
         return res.status(500).json({message: err.message});

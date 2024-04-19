@@ -56,6 +56,7 @@ function SignIn() {
         const res  = await axios.post('http://localhost:5000/api/User/login',data);
         console.log(res.data);
         localStorage.setItem('type',JSON.stringify(res.data.user.userType));
+        window.location.href = '/';
         alert('Login Successful');
     }catch(err){
         alert('Invalid Credentials');

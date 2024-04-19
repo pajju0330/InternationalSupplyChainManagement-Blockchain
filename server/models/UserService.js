@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
   userType: {
     type: String,
     required: [true, "User Type is Required"],
-    enum: ["Logistic provider", "Retailer", "Warehouse manager", "Raw Material Provider", "Customer", "Distributor"], // Define possible user types
+    enum: ["Logistic provider", "Retailer", "Warehouse manager", "Supplier", "Customer", "Distributor"], // Define possible user types
   },
 });
 
