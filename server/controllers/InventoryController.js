@@ -1,5 +1,6 @@
 
 const {InventoryConnector} = require('../utils/RawMaterialJourney')
+const MessageService = require('../models/MessageService');
 const CreateInventoryItem = async (req, res) => {
     try{
         /*
@@ -42,9 +43,20 @@ const getAllInventoryItems = async (req, res) => {
     }
 }
 
-
+const createMessage = async (req, res) => {
+    try{
+        const {sender,receiver,Date,MaterialID,Quantity,message} = req.body;
+        const newMessage = new MessageService({sender,receiver,Date,MaterialID,Quantity,message});
+        await newMessage.save();
+        res.status(201).json(newMessage);
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({message: err.message});
+    }
+}
 module.exports = {
     CreateInventoryItem,
     GetInventoryItem,
-    getAllInventoryItems
+    getAllInventoryItems,
+    createMessage
 }

@@ -36,28 +36,28 @@ export default function Marketplace() {
   const textColorBrand = useColorModeValue("brand.400", "white");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({
-    name: "",
-    id: "",
-    description: "",
-    pricePerUnit: 0,
-    quantity: 0,
-    supplierId: "",
-    expiryDate: "",
+    message: "",
+    sender: "",
+    receiver: "",
+    Date: "",
+    MaterialID: "",
+    Quantity: 0,
+    updatedAt: "",
   });
   const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
     async function getData() {
       try {
-        const res = await axios.get('http://localhost:5000/api/RawMaterial');
+        const res = await axios.get('http://localhost:5000/api/RawMaterial/messages');
         const data = res.data.map(item => ({
-          name: item.name,
-          id: item.MateriaID,
-          description: item.description,
-          pricePerUnit: item.PricePerUnit,
-          quantity: item.Quantity,
-          supplierId: item.SupplierID,
-          expiryDate: item.ExpiryDate.substring(0, 10), // Extract yyyy-mm-dd
+          message: item.message,
+          sender: item.sender,
+          receiver: item.receiver,
+          Date: item.Date.substring(0, 10), // Extract yyyy-mm-dd
+          MaterialID: item.MaterialID,
+          Quantity: item.Quantity,
+          updatedAt: item.updatedAt.substring(0, 10), // Extract yyyy-mm-dd
         }));
         setTableData(data); // Update table data state with fetched data
       } catch (error) {
@@ -93,7 +93,7 @@ export default function Marketplace() {
 
   async function submitData(data){
     try{
-      const res = await axios.post('http://localhost:5000/api/RawMaterial/create', data);
+      const res = await axios.post('http://localhost:5000/api/Inventory/createMessage', data);
       console.log("Data submitted successfully:", res.data); 
     }catch(error){
       console.error("Error submitting data:", error);
@@ -104,13 +104,13 @@ export default function Marketplace() {
     e.preventDefault();
     setTableData((prevData) => [...prevData, formData]);
     const data = {
-      name: formData.name,
-      MateriaID: formData.id,
-      description: formData.description,
-      PricePerUnit: formData.pricePerUnit,
-      Quantity: formData.quantity,
-      SupplierID: formData.supplierId,
-      ExpiryDate: formData.expiryDate.substring(0, 10), // Extract yyyy-mm-dd
+      message: formData.message,
+      sender: formData.sender,
+      receiver: formData.receiver,
+      Date: formData.Date.substring(0, 10), // Extract yyyy-mm-dd
+      MaterialID: formData.MaterialID,
+      Quantity: formData.Quantity,
+      updatedAt: formData.updatedAt.substring(0, 10), // Extract yyyy-mm-dd
     }
     submitData(data);
     setIsModalOpen(false);
@@ -119,19 +119,19 @@ export default function Marketplace() {
   return (
     <Box pt={{ base: "180px", md: "80px", xl: "80px" }}>
       <Stack spacing={4} direction="row" align="center">
-        <Button size="md" backgroundColor={textColorBrand} color={"white"} onClick={handleCreateButtonClick}>Add Item</Button>
+        <Button size="md" backgroundColor={textColorBrand} color={"white"} onClick={handleCreateButtonClick}>Add Request</Button>
       </Stack>
 
       <Table variant="striped" color={textColor} size="md" mt={4}>
         <Thead>
           <Tr>
-            <Th>Name</Th>
-            <Th>ID</Th>
-            <Th>Description</Th>
-            <Th>Price per Unit</Th>
+            <Th>Message</Th>
+            <Th>Sender</Th>
+            <Th>Receiver</Th>
+            <Th>Date</Th>
+            <Th>Material ID</Th>
             <Th>Quantity</Th>
-            <Th>Supplier ID</Th>
-            <Th>Expiry Date</Th>
+            <Th>Updated At</Th>
             <Th>Update</Th>
             <Th>Delete</Th>
           </Tr>
@@ -139,13 +139,13 @@ export default function Marketplace() {
         <Tbody>
           {tableData.map((item, index) => (
             <Tr key={index}>
-              <Td>{item.name}</Td>
-              <Td>{item.id}</Td>
-              <Td>{item.description}</Td>
-              <Td>{item.pricePerUnit}</Td>
-              <Td>{item.quantity}</Td>
-              <Td>{item.supplierId}</Td>
-              <Td>{item.expiryDate}</Td>
+              <Td>{item.message}</Td>
+              <Td>{item.sender}</Td>
+              <Td>{item.receiver}</Td>
+              <Td>{item.Date}</Td>
+              <Td>{item.MaterialID}</Td>
+              <Td>{item.Quantity}</Td>
+              <Td>{item.updatedAt}</Td>
               <Td>
                 <EditIcon
                   color="blue.500"
@@ -172,69 +172,67 @@ export default function Marketplace() {
           <ModalCloseButton />
           <ModalBody>
             <FormControl  isRequired>
-              <FormLabel>Name</FormLabel>
+              <FormLabel>Message</FormLabel>
               <Input
-                placeholder="Enter name"
-                name="name"
-                value={formData.name}
+                placeholder="Enter message"
+                name="message"
+                value={formData.message}
                 onChange={handleInputChange}
               />
             </FormControl>
             <FormControl isRequired mt={4}>
-              <FormLabel>ID</FormLabel>
+              <FormLabel>Sender</FormLabel>
               <Input
-                placeholder="Enter ID"
-                name="id"
-                value={formData.id}
+                placeholder="Enter sender"
+                name="sender"
+                value={formData.sender}
+                onChange={handleInputChange}
+              />
+            </FormControl>
+            <FormControl isRequired mt={4}>
+              <FormLabel>Receiver</FormLabel>
+              <Input
+                placeholder="Enter receiver"
+                name="receiver"
+                value={formData.receiver}
                 onChange={handleInputChange}
               />
             </FormControl>
             <FormControl mt={4}>
-              <FormLabel>Description</FormLabel>
-              <Textarea
-                placeholder="Enter description"
-                name="description"
-                value={formData.description}
+              <FormLabel>Date</FormLabel>
+              <Input
+                type="date"
+                name="Date"
+                value={formData.Date}
                 onChange={handleInputChange}
               />
             </FormControl>
             <FormControl isRequired mt={4}>
-              <FormLabel>Price per Unit</FormLabel>
-              <NumberInput defaultValue={0}>
-                <NumberInputField
-                  placeholder="Enter price per unit"
-                  name="pricePerUnit"
-                  value={formData.pricePerUnit}
-                  onChange={handleInputChange}
-                />
-              </NumberInput>
+              <FormLabel>Material ID</FormLabel>
+              <Input
+                placeholder="Enter material ID"
+                name="MaterialID"
+                value={formData.MaterialID}
+                onChange={handleInputChange}
+              />
             </FormControl>
             <FormControl isRequired mt={4}>
               <FormLabel>Quantity</FormLabel>
               <NumberInput defaultValue={0}>
                 <NumberInputField
                   placeholder="Enter quantity"
-                  name="quantity"
-                  value={formData.quantity}
+                  name="Quantity"
+                  value={formData.Quantity}
                   onChange={handleInputChange}
                 />
               </NumberInput>
             </FormControl>
-            <FormControl isRequired mt={4}>
-              <FormLabel>Supplier ID</FormLabel>
-              <Input
-                placeholder="Enter supplier ID"
-                name="supplierId"
-                value={formData.supplierId}
-                onChange={handleInputChange}
-              />
-            </FormControl>
             <FormControl mt={4}>
-              <FormLabel>Expiry Date</FormLabel>
+              <FormLabel>Updated At</FormLabel>
               <Input
                 type="date"
-                name="expiryDate"
-                value={formData.expiryDate}
+                name="updatedAt"
+                value={formData.updatedAt}
                 onChange={handleInputChange}
               />
             </FormControl>
