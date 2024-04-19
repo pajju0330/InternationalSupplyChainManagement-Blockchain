@@ -6,12 +6,14 @@ const connectDB = require('./db/connect');
 const cors = require('cors');
 const RawMaterialServiceRouter = require('./Routers/RawMaterialServiceRouter')
 const InventoryRouter = require('./Routers/InventoryRouter');
+const UserRouter = require('./Routers/UserRoute');
 dotenv.config();
 
 app.use(cors());
 app.use(express.json());
 app.use('/api/RawMaterial', RawMaterialServiceRouter);
 app.use('/api/Inventory', InventoryRouter);
+app.use('/api/User', UserRouter);
 app.get('/', (req, res) => {
   res.send('Server is running!');
 });
