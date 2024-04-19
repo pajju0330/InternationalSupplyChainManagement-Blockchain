@@ -30,9 +30,10 @@ import {
   FormErrorMessage,
 } from "@chakra-ui/react";
 import axios from "axios";
+import { Checkbox } from "@chakra-ui/react/dist/chakra-ui-react.cjs";
 
 export default function Marketplace() {
-  const user = JSON.parse(localStorage.getItem('type'));
+  const user = JSON.parse(localStorage.getItem("type"));
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const textColorBrand = useColorModeValue("brand.400", "white");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -44,14 +45,20 @@ export default function Marketplace() {
     MaterialID: "",
     Quantity: 0,
     updatedAt: "",
+    status: "", // Include status in formData
   });
   const [tableData, setTableData] = useState([]);
+  const [unreadMessages, setUnreadMessages] = useState([]);
+  const [readMessages, setReadMessages] = useState([]);
 
   useEffect(() => {
     async function getData() {
       try {
-        const res = await axios.get('http://localhost:5000/api/RawMaterial/messages');
-        const data = res.data.map(item => ({
+        const res = await axios.get(
+          "http://localhost:5000/api/RawMaterial/messages"
+        );
+        const data = res.data.map((item) => ({
+          _id: item._id,
           message: item.message,
           sender: item.sender,
           receiver: item.receiver,
@@ -59,12 +66,21 @@ export default function Marketplace() {
           MaterialID: item.MaterialID,
           Quantity: item.Quantity,
           updatedAt: item.updatedAt.substring(0, 10), // Extract yyyy-mm-dd
+          status: item.status,
         }));
-        setTableData(data); // Update table data state with fetched data
+        setTableData(data);
+        
+        // Filter messages based on status
+        const unread = data.filter((item) => item.status === "unread");
+        const read = data.filter((item) => item.status === "read");
+        setUnreadMessages(unread);
+        setReadMessages(read);
+        
+        console.log(data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
-    };
+    }
     getData();
   }, []);
 
@@ -92,15 +108,19 @@ export default function Marketplace() {
     }));
   };
 
-  async function submitData(data){
-    try{
-      const res = await axios.post('http://localhost:5000/api/Inventory/createMessage', data);
-      console.log("Data submitted successfully:", res.data); 
-    }catch(error){
+  async function submitData(data) {
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/api/Inventory/createMessage",
+        data
+      );
+      console.log("Data submitted successfully:", res.data);
+    } catch (error) {
       console.error("Error submitting data:", error);
       alert("Error submitting data");
     }
   }
+  
   const handleSaveButtonClick = (e) => {
     e.preventDefault();
     setTableData((prevData) => [...prevData, formData]);
@@ -112,59 +132,120 @@ export default function Marketplace() {
       MaterialID: formData.MaterialID,
       Quantity: formData.Quantity,
       updatedAt: formData.updatedAt.substring(0, 10), // Extract yyyy-mm-dd
-    }
+      status: formData.status,
+    };
     submitData(data);
     setIsModalOpen(false);
   };
+  const setStatus = async (id, status) => {
+    try {
+      const data = {status};
+      const res = await axios.post(`http://localhost:5000/api/Inventory/updatestatus/${id}`,data);
+      console.log("Data submitted successfully:", res.data);
+      window.location.reload();
+    } catch (error) {
+      console.error("Error submitting data:", error);
+      alert("Error submitting data");
+    }
+  }
 
+  const handleMarkMessage = (e, id, status) => {
+    e.preventDefault();
+    setStatus(id, status);
+  }
   return (
-    <Box pt={{ base: "180px", md: "80px", xl: "80px" }}>
-      <Stack spacing={4} direction="row" align="center">
-        {user != "Supplier"  &&  <Button size="md" backgroundColor={textColorBrand} color={"white"} onClick={handleCreateButtonClick}>Add Request</Button>}
-      </Stack>
-
-      <Table variant="striped" color={textColor} size="md" mt={4}>
-        <Thead>
-          <Tr>
-            <Th>Message</Th>
-            <Th>Sender</Th>
-            <Th>Receiver</Th>
-            <Th>Date</Th>
-            <Th>Material ID</Th>
-            <Th>Quantity</Th>
-            <Th>Updated At</Th>
-            <Th>Update</Th>
-            <Th>Delete</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {tableData.map((item, index) => (
-            <Tr key={index}>
-              <Td>{item.message}</Td>
-              <Td>{item.sender}</Td>
-              <Td>{item.receiver}</Td>
-              <Td>{item.Date}</Td>
-              <Td>{item.MaterialID}</Td>
-              <Td>{item.Quantity}</Td>
-              <Td>{item.updatedAt}</Td>
-              <Td>
-                <EditIcon
-                  color="blue.500"
-                  cursor="pointer"
-                  onClick={() => handleEditButtonClick(index)}
-                />
-              </Td>
-              <Td>
-                <DeleteIcon
-                  color="red.500"
-                  cursor="pointer"
-                  onClick={() => handleDeleteButtonClick(index)}
-                />
-              </Td>
+    <Flex pt={{ base: "180px", md: "80px", xl: "80px" }}>
+      <Box w="100%">
+        <Stack spacing={4} direction="row" align="center">
+          {user !== "Supplier" && (
+            <Button
+              size="md"
+              backgroundColor={textColorBrand}
+              color={"white"}
+              onClick={handleCreateButtonClick}
+            >
+              Add Request
+            </Button>
+          )}
+        </Stack>
+        <Text color={textColorBrand} style={{marginTop:'10px',fontSize:'28px' , fontWeight:'bold'}}>Pending</Text>
+    
+        <Table variant="striped" color={textColor} size="md" mt={4} >
+          <Thead>
+            <Tr>
+              <Th>Mark as Read</Th>
+              <Th>Message</Th>
+              <Th>Sender</Th>
+              <Th>Receiver</Th>
+              <Th>Date</Th>
+              <Th>Material ID</Th>
+              <Th>Quantity</Th>
+              <Th>Updated At</Th>
+              <Th>Delete</Th>
             </Tr>
-          ))}
-        </Tbody>
-      </Table>
+          </Thead>
+          <Tbody>
+            {unreadMessages.map((item, index) => (
+              <Tr key={index}>
+                <Td> <Checkbox style={{border:'1px solid black', borderRadius:'5px'}} onChange={(e)=>{
+                  console.log("hello");
+                  handleMarkMessage(e, item._id, 'read');
+                }}/> </Td> 
+                <Td>{item.message}</Td>
+                <Td>{item.sender}</Td>
+                <Td>{item.receiver}</Td>
+                <Td>{item.Date}</Td>
+                <Td>{item.MaterialID}</Td>
+                <Td>{item.Quantity}</Td>
+                <Td>{item.updatedAt}</Td>
+                <Td>
+                  <DeleteIcon
+                    color="red.500"
+                    cursor="pointer"
+                    onClick={() => handleDeleteButtonClick(index)}
+                  />
+                </Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+        
+        <Text color={textColorBrand} style={{marginTop:'80px',fontSize:'28px' , fontWeight:'bold'}}>Approved</Text>
+        <Table variant="striped" color={textColor} size="md" style={{marginTop:'10px'}}>
+          <Thead>
+            <Tr>
+              <Th>Message</Th>
+              <Th>Sender</Th>
+              <Th>Receiver</Th>
+              <Th>Date</Th>
+              <Th>Material ID</Th>
+              <Th>Quantity</Th>
+              <Th>Updated At</Th>
+              <Th>Delete</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {readMessages.map((item, index) => (
+              <Tr key={index}>
+                <Td>{item.message}</Td>
+                <Td>{item.sender}</Td>
+                <Td>{item.receiver}</Td>
+                <Td>{item.Date}</Td>
+                <Td>{item.MaterialID}</Td>
+                <Td>{item.Quantity}</Td>
+                <Td>{item.updatedAt}</Td>
+                <Td>
+                  <DeleteIcon
+                    color="red.500"
+                    cursor="pointer"
+                    onClick={() => handleDeleteButtonClick(index)}
+                  />
+                </Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </Box>
 
       <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
         <ModalOverlay />
@@ -172,7 +253,7 @@ export default function Marketplace() {
           <ModalHeader>Add New Item</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <FormControl  isRequired>
+            <FormControl isRequired>
               <FormLabel>Message</FormLabel>
               <Input
                 placeholder="Enter message"
@@ -237,6 +318,18 @@ export default function Marketplace() {
                 onChange={handleInputChange}
               />
             </FormControl>
+            <FormControl mt={4}>
+              <FormLabel>Status</FormLabel>
+              <Select
+                placeholder="Select status"
+                name="status"
+                value={formData.status}
+                onChange={handleInputChange}
+              >
+                <option value="unread">Unread</option>
+                <option value="read">Read</option>
+              </Select>
+            </FormControl>
           </ModalBody>
 
           <ModalFooter>
@@ -246,11 +339,9 @@ export default function Marketplace() {
             <Button colorScheme="blue" mr={3} onClick={handleCloseModal}>
               Close
             </Button>
-            
           </ModalFooter>
         </ModalContent>
       </Modal>
-    </Box>
+    </Flex>
   );
 }
-

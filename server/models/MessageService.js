@@ -30,6 +30,10 @@ const MessageSchema = new Schema({
 		type: Date,
 		default: Date.now,
 	},
+	status:{
+		type: String,
+		default: "unread"
+	},
 	updatedAt: {
 		type: Date,
 		default: Date.now,

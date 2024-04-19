@@ -64,9 +64,21 @@ const createMessage = async (req, res) => {
         return res.status(500).json({message: err.message});
     }
 }
+
+const updateMessageStatus = async (req, res) => {
+    try{
+        const {status} = req.body;
+        const updatedMessage = await MessageService.findByIdAndUpdate(req.params.messageId, {status}, {new: true});
+        res.status(200).json(updatedMessage);
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({message: err.message});
+    }
+}
 module.exports = {
     CreateInventoryItem,
     GetInventoryItem,
     getAllInventoryItems,
-    createMessage
+    createMessage,
+    updateMessageStatus
 }
