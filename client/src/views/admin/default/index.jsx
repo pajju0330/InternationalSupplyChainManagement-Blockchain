@@ -37,6 +37,7 @@ export default function UserReports() {
   const [averagePrice, setAveragePrice] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalQuantity, setTotalQuantity] = useState(0);
+  
   useEffect(() => {
     async function getData(){
       try {

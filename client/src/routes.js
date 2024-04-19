@@ -17,7 +17,7 @@ import DataTables from "views/admin/dataTables";
 
 // Auth Imports
 import SignInCentered from "views/auth/signIn";
-
+const user = JSON.parse(localStorage.getItem('type'));
 const routes = [
   {
     name: "Main Dashboard",
@@ -41,13 +41,13 @@ const routes = [
     component: NFTMarketplace,
     secondary: true,
   },
-  {
-    name: "All Requests",
-    layout: "/admin",
-    icon: <Icon as={MdBarChart} width='20px' height='20px' color='inherit' />,
-    path: "/data-tables",
-    component: DataTables,
-  },
+  // {
+  //   name: "All Requests",
+  //   layout: "/admin",
+  //   icon: <Icon as={MdBarChart} width='20px' height='20px' color='inherit' />,
+  //   path: "/data-tables",
+  //   component: DataTables,
+  // },
   // {
   //   name: "Profile",
   //   layout: "/admin",
@@ -64,5 +64,13 @@ const routes = [
   },
   
 ];
-
+if(user && user == "Warehouse manager"){
+  routes.push({
+    name: "All Requests",
+    layout: "/admin",
+    icon: <Icon as={MdBarChart} width='20px' height='20px' color='inherit' />,
+    path: "/data-tables",
+    component: DataTables,
+  })
+}
 export default routes;

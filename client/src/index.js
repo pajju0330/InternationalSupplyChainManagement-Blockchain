@@ -7,7 +7,7 @@ import AdminLayout from 'layouts/admin';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from 'theme/theme';
 import { ThemeEditorProvider } from '@hypertheme-editor/chakra-ui';
-
+// import store from './store';
 ReactDOM.render(
 	<ChakraProvider theme={theme}>
 		<React.StrictMode>

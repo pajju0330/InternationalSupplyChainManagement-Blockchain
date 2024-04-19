@@ -38,7 +38,7 @@ module.exports.login = async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.login(email, password);
-    res.status(200).json({ user: user._id, status: true });
+    res.status(200).json({ user, status: true });
   } catch (err) {
     const errors = handleErrors(err);
     res.status(401).json({ errors, status: false });

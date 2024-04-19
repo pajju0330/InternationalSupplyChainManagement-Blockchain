@@ -1,6 +1,8 @@
 import React from "react";
+
 import { NavLink } from "react-router-dom";
 // Chakra imports
+
 import {
   Box,
   Button,
@@ -24,9 +26,12 @@ import illustration from "assets/img/auth/auth.png";
 import { FcGoogle } from "react-icons/fc";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiEyeCloseLine } from "react-icons/ri";
+import axios from "axios";
 
 function SignIn() {
   // Chakra color mode
+  const [email, setEmail] = React.useState();
+  const [password, setPassword] = React.useState();
   const textColor = useColorModeValue("navy.700", "white");
   const textColorSecondary = "gray.400";
   const textColorDetails = useColorModeValue("navy.700", "secondaryGray.600");
@@ -44,6 +49,23 @@ function SignIn() {
   );
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
+  const verifyLogin = async() => {
+    try{
+        const data = {email,password}
+        console.log(data);
+        const res  = await axios.post('http://localhost:5000/api/User/login',data);
+        console.log(res.data);
+        localStorage.setItem('type',JSON.stringify(res.data.user.userType));
+        alert('Login Successful');
+    }catch(err){
+        alert('Invalid Credentials');
+    }
+  }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    verifyLogin();
+  }
+
   return (
     <DefaultAuth illustrationBackground={"https://img.freepik.com/free-vector/warehouse-elements-background_1268-1331.jpg?w=740&t=st=1713525800~exp=1713526400~hmac=9eb9fb241539e5241e12ddda5aacda7e9367333b4fa10347a62ce1e2c382eb81"} >
       <Flex
@@ -119,6 +141,8 @@ function SignIn() {
               variant='auth'
               fontSize='sm'
               ms={{ base: "0px", md: "0px" }}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               type='email'
               placeholder='mail@softChain.com'
               mb='24px'
@@ -137,6 +161,8 @@ function SignIn() {
               <Input
                 isRequired={true}
                 fontSize='sm'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 placeholder='Min. 8 characters'
                 mb='24px'
                 size='lg'
@@ -184,7 +210,8 @@ function SignIn() {
               fontWeight='500'
               w='100%'
               h='50'
-              mb='24px'>
+              mb='24px'
+              onClick={handleSubmit}>
               Sign In
             </Button>
           </FormControl>
