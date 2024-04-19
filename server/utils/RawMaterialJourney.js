@@ -5,7 +5,7 @@ exports.RMJConnector = async () => {
     try {
         const [owner] = await ethers.getSigners();
         
-        const RMJConnector = "0x573E7d2207A8E551Af78B5805D0492dcc60D4653"; 
+        const RMJConnector = "0xE089BD810B64f6cadb05B026d05fAF59eB74cB6E"; 
         const abi = JSON.parse(fs.readFileSync('./artifacts/contracts/RawMaterialJourney.sol/RawMaterialJourney.json').toString()).abi;
         // console.log(abi);
         const Rmj = new ethers.Contract(RMJConnector, abi, owner);    
@@ -21,7 +21,7 @@ exports.InventoryConnector = async () => {
     try {
         const [owner] = await ethers.getSigners();
         
-        const InventoryConnector = "0xcf133D9E584aF4EA2aB0e373AE135c1D3d587147"; 
+        const InventoryConnector = "0xD097f629D22bD66270fa49c0f28ddD68358e4a37"; 
         const abi = JSON.parse(fs.readFileSync('./artifacts/contracts/InventoryContract.sol/InventoryContract.json').toString()).abi;
         // console.log(abi);
         const Inventory = new ethers.Contract(InventoryConnector, abi, owner);    

@@ -1,6 +1,6 @@
 const RawMaterialService = require('../models/RawMaterialService');
 const {RMJConnector} = require('../utils/RawMaterialJourney')
-
+const {timestampToDate} = require('../utils/converter')
 
 const createRawMaterial = async (req, res) => {
     try{
@@ -57,14 +57,20 @@ const deleteRawMaterial = async (req, res) => {
 
 const getRawMaterialJourney = async (req, res) => {
     try{
-        const step = parseInt(req.body.step);
         const materialId = req.params.materialId;
-        console.log(step,materialId);
+        if(!materialId) return res.status(400).json({message: 'Material ID is required'});
         
         const RMJ = await RMJConnector();
-        const resp = await RMJ.getJourneyStep(materialId, step);
-        console.log(resp);
-        return res.status(200).json(resp);
+        let resp = await RMJ.getAllJourneyDetailsForMaterial(materialId);
+        let modifiedResp = resp.map(item => {
+            return {
+                materialID: item.materialID,
+                timestamp: timestampToDate(item.timestamp),
+                location: item.location,
+                description: item.description
+            };
+        });
+        return res.status(200).json(modifiedResp);
     }catch(err){
         // console.log(err);
         return res.status(500).json({message: err.message});
@@ -72,6 +78,7 @@ const getRawMaterialJourney = async (req, res) => {
 };
 const addRawMaterialJourney = async (req, res) => {
     try{
+        // console.log(reqparams, req.body);
         const RMJ = await RMJConnector();
         // console.log(req.params.materialId);
         const resp = await RMJ.addJourneyStep(req.params.materialId, req.body.location, req.body.description);

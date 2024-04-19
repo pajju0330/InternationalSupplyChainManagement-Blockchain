@@ -3,17 +3,19 @@ pragma solidity ^0.8.0;
 
 contract RawMaterialJourney {
     struct JourneyStep {
-        uint timestamp;
+        string materialID; // Include materialID in JourneyStep struct
+        uint256 timestamp;
         string location;
         string description;
     }
-    string[] public materialIDs;
     mapping(string => JourneyStep[]) public rawMaterialJourney;
-    event JourneyStepAdded(string indexed materialID, uint indexed stepIndex, uint timestamp, string location, string description);
+    string[] public materialIDs;
+    event JourneyStepAdded(string indexed materialID, uint indexed stepIndex, uint256 timestamp, string location, string description);
 
     function addJourneyStep(string memory materialID, string memory location, string memory description) public {
         JourneyStep[] storage journeySteps = rawMaterialJourney[materialID];
         JourneyStep memory newStep = JourneyStep({
+            materialID: materialID,
             timestamp: block.timestamp,
             location: location,
             description: description
@@ -24,28 +26,31 @@ contract RawMaterialJourney {
         }
         emit JourneyStepAdded(materialID, journeySteps.length - 1, newStep.timestamp, newStep.location, newStep.description);
     }
+    
     function getAllMaterialIDs() public view returns (string[] memory) {
-        uint256 materialCount = 0;
-        for (uint256 i = 0; i < materialIDs.length; i++) {
-          if (rawMaterialJourney[materialIDs[i]].length > 0) {
-            materialCount += rawMaterialJourney[materialIDs[i]].length;
-          }
-        }
-
-        string[] memory allMaterialIDs = new string[](materialCount);
-        uint256 index = 0;
-        for (uint256 i = 0; i < materialIDs.length; i++) {
-            for (uint256 j = 0; j < rawMaterialJourney[materialIDs[i]].length; j++) {
-                allMaterialIDs[index] = materialIDs[i];
-                index++;
-            }
-        }
-
-        return allMaterialIDs;
+        return materialIDs;
     }
+    
+function getAllJourneyDetailsForMaterial(string memory materialID) public view returns (JourneyStep[] memory) {
+    uint256 totalSteps = rawMaterialJourney[materialID].length;
+    
+    JourneyStep[] memory allJourneyDetails = new JourneyStep[](totalSteps);
+    for(uint256 i = 0; i < totalSteps; i++) {
+        allJourneyDetails[i] = JourneyStep({
+            materialID: materialID,
+            timestamp: rawMaterialJourney[materialID][i].timestamp,
+            location: rawMaterialJourney[materialID][i].location,
+            description: rawMaterialJourney[materialID][i].description
+        });
+    }
+    
+    return allJourneyDetails;
+}
+    
     function getJourneyStepCount(string memory materialID) public view returns (uint) {
         return rawMaterialJourney[materialID].length;
     }
+    
     function getJourneyStep(string memory materialID, uint stepIndex) public view returns (uint, string memory, string memory) {
         require(stepIndex < rawMaterialJourney[materialID].length, "Step index out of bounds");
         JourneyStep memory step = rawMaterialJourney[materialID][stepIndex];
