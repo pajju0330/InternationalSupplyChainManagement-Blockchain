@@ -180,8 +180,8 @@ export default function Marketplace() {
               <Th>Date</Th>
               <Th>Material ID</Th>
               <Th>Quantity</Th>
-              <Th>Updated At</Th>
-              <Th>Delete</Th>
+              <Th>Deadline</Th>
+              {/* <Th>Delete</Th> */}
             </Tr>
           </Thead>
           <Tbody>
@@ -198,13 +198,13 @@ export default function Marketplace() {
                 <Td>{item.MaterialID}</Td>
                 <Td>{item.Quantity}</Td>
                 <Td>{item.updatedAt}</Td>
-                <Td>
+                {/* <Td>
                   <DeleteIcon
                     color="red.500"
                     cursor="pointer"
                     onClick={() => handleDeleteButtonClick(index)}
                   />
-                </Td>
+                </Td> */}
               </Tr>
             ))}
           </Tbody>
@@ -220,8 +220,8 @@ export default function Marketplace() {
               <Th>Date</Th>
               <Th>Material ID</Th>
               <Th>Quantity</Th>
-              <Th>Updated At</Th>
-              <Th>Delete</Th>
+              <Th>Deadline</Th>
+              {/* <Th>Delete</Th> */}
             </Tr>
           </Thead>
           <Tbody>
@@ -234,13 +234,13 @@ export default function Marketplace() {
                 <Td>{item.MaterialID}</Td>
                 <Td>{item.Quantity}</Td>
                 <Td>{item.updatedAt}</Td>
-                <Td>
+                {/* <Td>
                   <DeleteIcon
                     color="red.500"
                     cursor="pointer"
                     onClick={() => handleDeleteButtonClick(index)}
                   />
-                </Td>
+                </Td> */}
               </Tr>
             ))}
           </Tbody>
@@ -250,7 +250,7 @@ export default function Marketplace() {
       <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Add New Item</ModalHeader>
+          <ModalHeader>Create new request</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <FormControl isRequired>
@@ -310,7 +310,7 @@ export default function Marketplace() {
               </NumberInput>
             </FormControl>
             <FormControl mt={4}>
-              <FormLabel>Updated At</FormLabel>
+              <FormLabel>Deadline</FormLabel>
               <Input
                 type="date"
                 name="updatedAt"
@@ -318,7 +318,7 @@ export default function Marketplace() {
                 onChange={handleInputChange}
               />
             </FormControl>
-            <FormControl mt={4}>
+            {/* <FormControl mt={4}>
               <FormLabel>Status</FormLabel>
               <Select
                 placeholder="Select status"
@@ -329,16 +329,17 @@ export default function Marketplace() {
                 <option value="unread">Unread</option>
                 <option value="read">Read</option>
               </Select>
-            </FormControl>
+            </FormControl> */}
           </ModalBody>
 
           <ModalFooter>
-            <Button variant="ghost" onClick={handleSaveButtonClick}>
-              Save
-            </Button>
-            <Button colorScheme="blue" mr={3} onClick={handleCloseModal}>
+          <Button variant="ghost" mr={3} onClick={handleCloseModal}>
               Close
             </Button>
+            <Button  colorScheme="blue" onClick={handleSaveButtonClick}>
+              Save
+            </Button>
+            
           </ModalFooter>
         </ModalContent>
       </Modal>

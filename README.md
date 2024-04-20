@@ -47,17 +47,26 @@ The project utilizes a decentralized blockchain network and smart contracts to a
 #### Step 2: Create, Compile & Deploy Smart Contract
 
 1. Open VSCode and open the terminal by pressing `Ctrl + '`.
-2. Install dependencies: 
+2. Move to Server:
+    ```
+    $ cd server
+    ```
+3. Install dependencies: 
     ```
     $ npm i
     ```
-3. Compilation command: 
+4. Compilation command: 
     ```
     $ npx hardhat compile
     ```
-4. Run command: 
+5. Run command: 
     ```
     $ npx hardhat run ./script/deploy.js
+    ```
+6. Copy Paste the the contract Addresses in ./utils/RawMaterialJourney.js
+7. Finally start the server
+    ```
+    $ npm start
     ```
 
 #### Step 3: Run DAPP
@@ -70,10 +79,7 @@ The project utilizes a decentralized blockchain network and smart contracts to a
     ```
     $ npm i
     ```
-3. Install Web3 in the `package.json` file:
-    ```
-    $ npm install --save web3
-    ```
+
 4. Run the development server:
     ```
     $ npm run dev

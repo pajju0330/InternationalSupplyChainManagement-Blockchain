@@ -198,7 +198,7 @@ export default function Marketplace() {
 						{user == "Warehouse manager" && <Th>Supplier ID</Th>}
 						<Th>Expiry Date</Th>
 						<Th>Pay</Th>
-						{user !== "Warehouse manager" && <Td>Delete</Td>}
+						{user !== "Warehouse manager" && <Th>Delete</Th>}
 					</Tr>
 				</Thead>
 				<Tbody>
