@@ -14,7 +14,7 @@ import MainDashboard from "views/admin/default";
 import NFTMarketplace from "views/admin/marketplace";
 import Profile from "views/admin/profile";
 import DataTables from "views/admin/dataTables";
-
+import chatbot from "views/admin/chatbot";
 // Auth Imports
 import SignInCentered from "views/auth/signIn";
 const user = JSON.parse(localStorage.getItem('type'));
@@ -61,6 +61,13 @@ const routes = [
     icon: <Icon as={MdBarChart} width='20px' height='20px' color='inherit' />,
     path: "/data-tables",
     component: DataTables,
+  },
+  {
+    name: "Chatbot",
+    layout: "/admin",
+    icon: <Icon as={MdBarChart} width='20px' height='20px' color='inherit' />,
+    path: "/bot",
+    component: chatbot,
   },
   // {
   //   name: "Sign In",

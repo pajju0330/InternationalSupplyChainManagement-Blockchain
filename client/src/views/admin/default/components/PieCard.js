@@ -5,12 +5,39 @@ import Card from "components/card/Card.js";
 import PieChart from "components/charts/PieChart";
 import { pieChartData, pieChartOptions } from "variables/charts";
 import { VSeparator } from "components/separator/Separator";
-import React from "react";
+import React, {useState,useEffect,} from "react";
+import axios from "axios";
 
 export default function Conversion(props) {
   const { ...rest } = props;
-
-  // Chakra Color Mode
+  const[read, setRead] = useState(0);
+  const[unread, setunRead] = useState(0);
+  useEffect(() => {
+    async function getData() {
+      try {
+        const res = await axios.get(
+          "http://localhost:5000/api/RawMaterial/messages"
+        );
+        const data = res.data.map((item) => ({
+          status: item.status,
+        }));  
+        
+        // Filter messages based on status
+        const unread = data.filter((item) => item.status === "unread").length;
+        const read = data.filter((item) => item.status === "read").length;
+        setRead(read);
+        setunRead(unread);
+        pieChartData[0] = read;
+        pieChartData[1] = unread;
+        console.log("Unread count:", unread);
+        console.log("Read count:", read);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+    getData();
+  }, []);
+  
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const cardColor = useColorModeValue("white", "navy.700");
   const cardShadow = useColorModeValue(
@@ -58,7 +85,7 @@ export default function Conversion(props) {
             </Text>
           </Flex>
           <Text fontSize='lg' color={textColor} fontWeight='700'>
-            63%
+            {unread}
           </Text>
         </Flex>
         <VSeparator mx={{ base: "60px", xl: "60px", "2xl": "60px" }} />
@@ -74,7 +101,7 @@ export default function Conversion(props) {
             </Text>
           </Flex>
           <Text fontSize='lg' color={textColor} fontWeight='700'>
-            25%
+            {read}
           </Text>
         </Flex>
       </Card>

@@ -8,7 +8,7 @@ router.get('/journey/:materialId', RawMaterialServiceController.getRawMaterialJo
 router.post('/journey/:materialId', RawMaterialServiceController.addRawMaterialJourney);
 router.get('/:materialId', RawMaterialServiceController.getRawMaterialById);
 router.put('/:materialId', RawMaterialServiceController.updateRawMaterial);
-router.delete('/:materialId', RawMaterialServiceController.deleteRawMaterial);
+router.delete('/delete/:materialId', RawMaterialServiceController.deleteRawMaterial);
 router.get('/', RawMaterialServiceController.getRawMaterials);
 
 module.exports = router;

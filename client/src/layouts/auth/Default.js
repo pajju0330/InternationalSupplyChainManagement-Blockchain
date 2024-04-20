@@ -21,7 +21,7 @@ function AuthIllustration(props) {
           lg: "100vh",
           xl: "97vh",
         }}
-        w='100%'
+        w='80%'
         maxW={{ md: "66%", lg: "1313px" }}
         mx='auto'
         pt={{ sm: "50px", md: "0px" }}
@@ -47,9 +47,7 @@ function AuthIllustration(props) {
               w='8px'
               color='secondaryGray.600'
             />
-            <Text ms='0px' fontSize='sm' color='secondaryGray.600'>
-              Back to Simmmple
-            </Text>
+           
           </Flex>
         </NavLink>
         {children}
@@ -63,9 +61,10 @@ function AuthIllustration(props) {
           <Flex
             bg={`url(${illustrationBackground})`}
             justify='center'
-            align='end'
-            w='100%'
-            h='100%'
+            align='center'
+            w='80%'
+            h='80%'
+            marginTop="70px"
             bgSize='cover'
             bgPosition='50%'
             position='absolute'

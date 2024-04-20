@@ -10,6 +10,7 @@
     "@emotion/cache": "^11.7.1",
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
+    "@google/generative-ai": "^0.7.1",
     "@hypertheme-editor/chakra-ui": "^0.1.5",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",

@@ -120,10 +120,7 @@ export default function Marketplace() {
     checkoutHandler();
 	};
 
-	const handleDeleteButtonClick = (index) => {
-		// Logic to handle delete action for the item at the specified index
-	};
-
+	
 	const handleCreateButtonClick = () => {
 		setIsModalOpen(true);
 	};
@@ -140,6 +137,16 @@ export default function Marketplace() {
 		}));
 	};
 
+	const handleDeleteButtonClick = async (id) => {
+		console.log("Deleting item with ID:", id);
+		try {
+		  await axios.delete(`http://localhost:5000/api/RawMaterial/delete/${id}`);
+		  setTableData((prevData) => prevData.filter((item) => item.id !== id));
+		  alert("Item deleted successfully")
+		} catch (error) {
+		  console.error("Error deleting item:", error);
+		}
+	  };
 	async function submitData(data) {
 		try {
 			const res = await axios.post(
@@ -191,7 +198,7 @@ export default function Marketplace() {
 						{user == "Warehouse manager" && <Th>Supplier ID</Th>}
 						<Th>Expiry Date</Th>
 						<Th>Pay</Th>
-						<Th>Delete</Th>
+						{user !== "Warehouse manager" && <Td>Delete</Td>}
 					</Tr>
 				</Thead>
 				<Tbody>
@@ -211,13 +218,14 @@ export default function Marketplace() {
 									onClick={handleEditButtonClick}
 								/>
 							</Td>
-							<Td>
+							{user !== "Warehouse manager" && <Td>
 								<DeleteIcon
 									color='red.500'
 									cursor='pointer'
-									onClick={() => handleDeleteButtonClick(index)}
+									onClick={() => handleDeleteButtonClick(item.id)}
 								/>
-							</Td>
+							</Td>}
+							
 						</Tr>
 					))}
 				</Tbody>

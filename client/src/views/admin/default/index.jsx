@@ -127,8 +127,8 @@ export default function UserReports() {
       </SimpleGrid>
 
       <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap='20px' mb='20px'>
-        <TotalSpent />
-        <WeeklyRevenue />
+        {/* <TotalSpent />
+        <WeeklyRevenue /> */}
       </SimpleGrid>
       <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap='20px' mb='20px'>
     <Box w="100%"> {/* Set width here */}

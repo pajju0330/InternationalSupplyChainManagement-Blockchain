@@ -47,7 +47,8 @@ const updateRawMaterial = async (req, res) => {
 
 const deleteRawMaterial = async (req, res) => {
     try{
-        await RawMaterialService.findByIdAndDelete(req.params.materialId);
+        const MateriaID = req.params.materialId;
+            await RawMaterialService.deleteOne({MateriaID});
         res.status(200).json({message: 'Raw Material Deleted Successfully'});
     }catch(err){
         console.log(err);
