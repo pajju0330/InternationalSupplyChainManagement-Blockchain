@@ -22,9 +22,9 @@ The project utilizes a decentralized blockchain network and smart contracts to a
 
 ![image](https://github.com/pajju0330/InternationalSupplyChainManagement-Blockchain/assets/103507406/5ed83b3e-be67-4f65-8754-bfc5c8ab3b60)
 
-![image](https://github.com/pajju0330/InternationalSupplyChainManagement-Blockchain/assets/103507406/de1d0ebf-a07a-4bfa-b53e-0edc83cb0c4f)
-
 ![image](https://github.com/pajju0330/InternationalSupplyChainManagement-Blockchain/assets/103507406/6dc74113-560e-4a82-a7f6-72c7b3d4ebc3)
+
+![image](https://github.com/pajju0330/InternationalSupplyChainManagement-Blockchain/assets/103507406/de1d0ebf-a07a-4bfa-b53e-0edc83cb0c4f)
 
 ![Demo](https://github.com/pajju0330/InternationalSupplyChainManagement-Blockchain/assets/103507406/3438eaef-6270-4a5a-85da-e42e3faa8365)
 
