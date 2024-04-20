@@ -1,4 +1,4 @@
-## Description:
+## SoftChain- An International Supply Chain Data Sharing Using Blockchain:
 Supply-chain-dapp revolutionizes supply chain management with blockchain and smart contracts. It ensures transparency, efficiency, and security from manufacturer to consumer. Seamlessly integrated with e-commerce platforms, it empowers consumers with real-time tracking and trust in product authenticity. Welcome to the future of supply chain, where every transaction is transparent, secure, and efficient.
 
 ## Features:
